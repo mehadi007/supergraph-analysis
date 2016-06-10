@@ -1,0 +1,16 @@
+nodedef>name INT,type VARCHAR,size INT
+1,fc,3
+2,ch,4
+3,st,7
+4,nc,4
+5,bc,5
+6,nb,6
+7,noise,0
+2,3,1,nodeOverlap
+5,6,1,nodeOverlap
+edgedef>source INT,target INT,weight INT,type VARCHAR
+1,2,3,interaction
+2,4,1,interaction
+3,4,1,interaction
+4,5,2,interaction
+4,6,1,interaction

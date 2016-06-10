@@ -1,0 +1,7 @@
+SuperNode_1		SuperNode_2		Node Overlap Breakdown
+Type Index (size)	Type Index (size)
+st 1 (5)		fc 6 (5)		1,1
+ch 2 (4)		fc 6 (5)		1
+st 3 (5)		fc 6 (5)		1,1
+st 4 (4)		fc 6 (5)		1,1
+st 5 (4)		fc 6 (5)		1,1
