@@ -31,7 +31,7 @@ elif [ "$method" = "marg" ]; then
     python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/graphs/$filename.graph DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_orderedALL.model DATA_FOR_SUPERGRAPH/$targetFolder DATA_FOR_SUPERGRAPH/$targetFolder/greedySelectionMargin_nStop_$filename\_orderedALL.model DATA_FOR_SUPERGRAPH/$targetFolder/greedySelectionMargin_costs_$filename\_orderedALL.model > DATA_FOR_SUPERGRAPH/$targetFolder/OUTPUT_$filename.txt &
 elif [ "$method" = "step" ] || [ "$method" = "stepa" ] || [ "$method" = "kstep" ]; then
     #python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/graphs/$filename.graph DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_orderedALL.model DATA_FOR_SUPERGRAPH/$targetFolder DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_structures_1 DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_encoding_1 > DATA_FOR_SUPERGRAPH/$targetFolder/OUTPUT_$filename.txt &
-    python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/graphs/$filename.graph DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_orderedALL.model DATA_FOR_SUPERGRAPH/$targetFolder DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_structures_1 > DATA_FOR_SUPERGRAPH/$targetFolder/OUTPUT_$filename.txt &
+    python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/graphs/$filename.graph DATA_FOR_SUPERGRAPH/gnf_results/$filename\_orderedALL.model DATA_FOR_SUPERGRAPH/$targetFolder DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_structures_1 > DATA_FOR_SUPERGRAPH/$targetFolder/OUTPUT_$filename.txt &
 else
     echo 'Wrong input.'
 fi
