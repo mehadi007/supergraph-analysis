@@ -1,16 +1,35 @@
+#!/bin/bash
 
-python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/GnF_noOverlap/chocMediaWiki.sentenceEdges.graph DATA_FOR_SUPERGRAPH/GnF_noOverlap/chocMediaWiki.sentenceEdges_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_noOverlap DATA_FOR_SUPERGRAPH/GnF_noOverlap/heuristicSelection_nStop_ALL_chocMediaWiki.sentenceEdges_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_noOverlap/heuristic_Selection_costs_ALL_chocMediaWiki.sentenceEdges_orderedALL.model > DATA_FOR_SUPERGRAPH/GnF_noOverlap/OUTPUT_chocMediaWiki.sentenceEdges_noOverlap.txt &
+# This files generate model analysis and supergraphs
+# input:
+#   data: chocolate, oregon, caida, enron, euemail
+#   method: vog, gnf, step, stepa, kstep
 
-python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/GnF_Orig/chocMediaWiki.sentenceEdges.graph DATA_FOR_SUPERGRAPH/GnF_Orig/chocMediaWiki.sentenceEdges_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_Orig DATA_FOR_SUPERGRAPH/GnF_Orig/heuristicSelection_nStop_ALL_chocMediaWiki.sentenceEdges_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_Orig/heuristic_Selection_costs_ALL_chocMediaWiki.sentenceEdges_orderedALL.model > DATA_FOR_SUPERGRAPH/GnF_Orig/OUTPUT_chocMediaWiki.sentenceEdges_Orig.txt &
+data=$1
+method=$2
 
-python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/GnF_noOverlap/as-oregon.graph DATA_FOR_SUPERGRAPH/GnF_noOverlap/as-oregon_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_noOverlap DATA_FOR_SUPERGRAPH/GnF_noOverlap/heuristicSelection_nStop_ALL_as-oregon_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_noOverlap/heuristic_Selection_costs_ALL_as-oregon_orderedALL.model > DATA_FOR_SUPERGRAPH/GnF_noOverlap/OUTPUT_as-oregon_noOverlap.txt &
+filename=$(case "$data" in
+    (chocolate) echo chocMediaWiki.sentenceEdges;;
+    (oregon) echo as-oregon;;
+    (caida) echo as-caida;;
+    (enron) echo enron;;
+    (euemail) echo email-EuAll
+esac)
 
-python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/GnF_Orig/as-oregon.graph DATA_FOR_SUPERGRAPH/GnF_Orig/as-oregon_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_Orig DATA_FOR_SUPERGRAPH/GnF_Orig/heuristicSelection_nStop_ALL_as-oregon_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_Orig/heuristic_Selection_costs_ALL_as-oregon_orderedALL.model > DATA_FOR_SUPERGRAPH/GnF_Orig/OUTPUT_as-oregon_Orig.txt &
+targetFolder=$(case "$method" in
+    (vog) echo vog_orig_results;;
+    (gnf) echo gnf_results;;
+    (step) echo parallel_results/plain;;
+    (stepa) echo parallel_results/active;;
+    (kstep) echo parallel_results/topK
+esac)
 
-python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/GnF_Overlap/chocMediaWiki.sentenceEdges.graph DATA_FOR_SUPERGRAPH/GnF_Overlap/chocMediaWiki.sentenceEdges_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_Overlap DATA_FOR_SUPERGRAPH/GnF_Overlap/heuristicSelection_nStop_ALL_chocMediaWiki.sentenceEdges_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_Overlap/heuristic_Selection_costs_ALL_chocMediaWiki.sentenceEdges_orderedALL.model > DATA_FOR_SUPERGRAPH/GnF_Overlap/OUTPUT_chocMediaWiki.sentenceEdges_Overlap.txt &
-
-python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/GnF_Overlap/as-oregon.graph DATA_FOR_SUPERGRAPH/GnF_Overlap/as-oregon_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_Overlap DATA_FOR_SUPERGRAPH/GnF_Overlap/heuristicSelection_nStop_ALL_as-oregon_orderedALL.model DATA_FOR_SUPERGRAPH/GnF_Overlap/heuristic_Selection_costs_ALL_as-oregon_orderedALL.model > DATA_FOR_SUPERGRAPH/GnF_Overlap/OUTPUT_as-oregon_Overlap.txt &
-
-python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/OPT_Overlap/chocMediaWiki.sentenceEdges.graph DATA_FOR_SUPERGRAPH/OPT_Overlap/chocMediaWiki.sentenceEdges_orderedALL.model DATA_FOR_SUPERGRAPH/OPT_Overlap DATA_FOR_SUPERGRAPH/OPT_Overlap/optGreedySelection_nStop_simple_chocMediaWiki.sentenceEdges_orderedALL.model DATA_FOR_SUPERGRAPH/OPT_Overlap/optGreedySelection_costs_simple_chocMediaWiki.sentenceEdges_orderedALL.model > DATA_FOR_SUPERGRAPH/OPT_Overlap/OUTPUT_chocMediaWiki.sentenceEdges_Opt.txt &
-
-python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/OPT_Overlap/as-oregon.graph DATA_FOR_SUPERGRAPH/OPT_Overlap/as-oregon_orderedALL.model DATA_FOR_SUPERGRAPH/OPT_Overlap DATA_FOR_SUPERGRAPH/OPT_Overlap/optGreedySelection_nStop_simple_as-oregon_orderedALL.model DATA_FOR_SUPERGRAPH/OPT_Overlap/optGreedySelection_costs_simple_as-oregon_orderedALL.model > DATA_FOR_SUPERGRAPH/OPT_Overlap/OUTPUT_as-oregon_Opt.txt &
+if [ "$method" = "vog" ] || [ "$method" = "gnf" ]; then
+    python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/graphs/$filename.graph DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_orderedALL.model DATA_FOR_SUPERGRAPH/$targetFolder DATA_FOR_SUPERGRAPH/$targetFolder/heuristicSelection_nStop_ALL_$filename\_orderedALL.model DATA_FOR_SUPERGRAPH/$targetFolder/heuristic_Selection_costs_ALL_$filename\_orderedALL.model > DATA_FOR_SUPERGRAPH/$targetFolder/OUTPUT_$filename.txt &
+elif [ "$method" = "step" ] || [ "$method" = "stepa" ] || [ "$method" = "kstep" ]; then
+    python2.7 parse_graph.py DATA_FOR_SUPERGRAPH/graphs/$filename.graph DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_structures_1 DATA_FOR_SUPERGRAPH/$targetFolder DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_structures_1 DATA_FOR_SUPERGRAPH/$targetFolder/$filename\_encoding_1 > DATA_FOR_SUPERGRAPH/$targetFolder/OUTPUT_$filename.txt &
+else
+    echo 'Wrong input.'
+fi
+echo ''
+echo 'Analysis completed.'
