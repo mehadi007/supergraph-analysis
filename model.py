@@ -83,17 +83,25 @@ class Model:
                     #                            normalized_overlap = overlap_overall / (struct1.numNodes + struct2.numNodes)
                     #                           )
                     if (struc1.numNodes-overlap[0]) * (struc2.numNodes-overlap[0]) != 0 :
-                        self.overlapsList.append((struc1.idx, struc2.idx, 0, 1.0/((struc1.numNodes) * (struc2.numNodes-overlap[0])), overlap[0], float(overlap[0])/min(struc1.numNodes, struc2.numNodes)));
+                        #self.overlapsList.append((struc1.idx, struc2.idx, 0, 1.0/((struc1.numNodes) * (struc2.numNodes-overlap[0])), overlap[0], float(overlap[0])/min(struc1.numNodes, struc2.numNodes)));
+                        # change to jaccard similarity
+                        self.overlapsList.append((struc1.idx, struc2.idx, 0, 1.0/((struc1.numNodes) * (struc2.numNodes-overlap[0])), overlap[0], float(overlap[0])/(struc1.numNodes + struc2.numNodes - overlap[0])));
                     else :
-                        self.overlapsList.append((struc1.idx, struc2.idx, 0, 1.0, overlap[0], float(overlap[0])/min(struc1.numNodes, struc2.numNodes)));
+                        #self.overlapsList.append((struc1.idx, struc2.idx, 0, 1.0, overlap[0], float(overlap[0])/min(struc1.numNodes, struc2.numNodes)));
+                        # change to jaccard similarity
+                        self.overlapsList.append((struc1.idx, struc2.idx, 0, 1.0, overlap[0], float(overlap[0])/(struc1.numNodes + struc2.numNodes - overlap[0])));
                     #print self.overlapsList
                     if ov.nodeOverlap[0] > 0:
                         stringOverlap = ','.join(map(str, ov.nodeOverlap))
-                        mHandleFull.write('%s' % struc1.typeS + ' %.0f' % (struc1.idx + 1) + ' (%.0f)' % struc1.numNodes + '\t\t%s' % struc2.typeS + ' %.0f' % (struc2.idx + 1) + ' (%.0f)' % struc2.numNodes + '\t\t%s' % stringOverlap + '\t\t\t\t%.3f' % (float(overlap[0])/(min(struc1.numNodes,struc2.numNodes))))
+                        #mHandleFull.write('%s' % struc1.typeS + ' %.0f' % (struc1.idx + 1) + ' (%.0f)' % struc1.numNodes + '\t\t%s' % struc2.typeS + ' %.0f' % (struc2.idx + 1) + ' (%.0f)' % struc2.numNodes + '\t\t%s' % stringOverlap + '\t\t\t\t%.3f' % (float(overlap[0])/(min(struc1.numNodes,struc2.numNodes))))
+                        # change to jaccard similarity
+                        mHandleFull.write('%s' % struc1.typeS + ' %.0f' % (struc1.idx + 1) + ' (%.0f)' % struc1.numNodes + '\t\t%s' % struc2.typeS + ' %.0f' % (struc2.idx + 1) + ' (%.0f)' % struc2.numNodes + '\t\t%s' % stringOverlap + '\t\t\t\t%.3f' % (float(overlap[0])/((struc1.numNodes + struc2.numNodes - overlap[0]))))
                         mHandleFull.write('\n')
                         mHandle.write('%.0f,' % (struc1.idx + 1) + '%.0f' % (struc2.idx + 1) + ',%.0f' % ov.nodeOverlap[0] + '\n')
                         gdfHandle.write('%.0f,' % (struc1.idx + 1) + '%.0f' % (struc2.idx + 1) + ',%.0f' % ov.nodeOverlap[0] + ',nodeOverlap\n')
-                    if (float(overlap[0])/(min(struc1.numNodes,struc2.numNodes))) > 0.1:
+                    #if (float(overlap[0])/(min(struc1.numNodes,struc2.numNodes))) > 0.1:
+                    # change to jaccard similarity
+                    if (float(overlap[0])/((struc1.numNodes + struc2.numNodes - overlap[0]))) > 0.1:
                         self.outputMoreCandidates(struc1, struc2, augmented_model);
 
         mHandle.close()
