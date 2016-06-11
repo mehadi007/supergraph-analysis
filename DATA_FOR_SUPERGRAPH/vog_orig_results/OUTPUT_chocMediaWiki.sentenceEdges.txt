@@ -1,0 +1,14 @@
+6
+total nodes: 2899
+uncovered nodes: 898
+Number of structures in the model: 101
+Printing the graph out
+number of edges with duplicates = 10918
+SuperGraph edges printed out
+Total	fc	st	bc	ch	nc	nb	Empty	Model	Percent
+101	0	101	0	0	0	0	60310	53115	88.07%
+
+Entropy over structure type: 0.0
+0.173008918762
+Total running time 0.17
+covered / total: 3380 / 5467
