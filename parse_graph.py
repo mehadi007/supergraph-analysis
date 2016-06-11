@@ -110,9 +110,9 @@ if len(sys.argv) > 2 and sys.argv[2][0] != '-' :
     # Read the encoding costs
     emptyModelCost = -1;
     finalModelCost = -1;
-    """
+    
     if linesSelected:  # obtain the costs only if the model file is not empty
-       if len(sys.argv) > 4:
+       if len(sys.argv) > 5:
           costsFilename = sys.argv[5];
           with open(costsFilename, "rb") as f:
              first = f.readline()     # Read the first line.
@@ -125,7 +125,7 @@ if len(sys.argv) > 2 and sys.argv[2][0] != '-' :
           if last:   # if not empty string
              finalModelCost = int(last.split('\t')[-1].rstrip());  # Get the final cost of the selected model
     """
-    # TODO: remove encoding cost temporarily
+    # WARNING: remove encoding cost temporarily
     if len(sys.argv) > 5:
        costsFilename = sys.argv[5];
        with open(costsFilename, "rb") as f:
@@ -138,6 +138,7 @@ if len(sys.argv) > 2 and sys.argv[2][0] != '-' :
           emptyModelCost = int(first.split(' ')[-1].rstrip()); # Get the cost of the empty model from the first line
        if last:   # if not empty string
           finalModelCost = int(last.split('\t')[-1].rstrip());  # Get the final cost of the selected model
+    """
        
 
     # Find statistics about the summaries
