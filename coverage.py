@@ -31,10 +31,14 @@ class Coverage :
     # return how many times each edge is covered
     def printCoverage(self):
        print "covered / total: %.0f / %.0f" % (self.numCellsCovered, self.numEdges);
+       # count edges covered more than once
+       numOverlapEdges = 0
        for i in range(0, self.numNodes-1):
            counter = collections.Counter(self.covered[i])
            if len(list(counter)) > 0:
                z = (counter.most_common(1))[0]; # get the counter of the most common element
                (x, y) = z
                if y > 1:
+                   numOverlapEdges += 1
                    print "%.0f: %s" % (i,counter.most_common(10));
+       print '# of overlapping edges: %.0f' % numOverlapEdges
