@@ -111,7 +111,7 @@ class Model:
         # compute avg and std of similarity
         avgSimilarity = np.mean(similarityList)
         stdSimilarity = np.std(similarityList)
-        print similarityList
+        #print similarityList
         mHandleFull.write('# of overlapped pairs: ' + '%.0f' % len(similarityList) + '\n')
         mHandleFull.write('Average normalized overlap: ' + '%.3f' % avgSimilarity + '\n')
         mHandleFull.write('Normalized overlap std: ' + '%.3f' % stdSimilarity + '\n')
