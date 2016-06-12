@@ -4,6 +4,7 @@ import sys
 from graph import *
 from collections import namedtuple
 from mdl_structs import *
+import numpy as np
 
 class Model:
     strucTypes = []
@@ -70,6 +71,8 @@ class Model:
         mHandle.write('Supernode_1,Supernode_2,Overall_Node_Overlap\n')
         mHandleFull.write('SuperNode_1\t\tSuperNode_2\t\tNode Overlap Breakdown\t\tNormalized Overlap\n')
         mHandleFull.write('Type Index (size)\tType Index (size)\n')
+        # avg and std of similarity
+        similarityList = []
         for struc1 in self.structs:
             for struc2 in self.structs:
                 if struc1.idx < struc2.idx:
@@ -99,10 +102,19 @@ class Model:
                         mHandleFull.write('\n')
                         mHandle.write('%.0f,' % (struc1.idx + 1) + '%.0f' % (struc2.idx + 1) + ',%.0f' % ov.nodeOverlap[0] + '\n')
                         gdfHandle.write('%.0f,' % (struc1.idx + 1) + '%.0f' % (struc2.idx + 1) + ',%.0f' % ov.nodeOverlap[0] + ',nodeOverlap\n')
+                        similarityList.append(float(overlap[0])/((struc1.numNodes + struc2.numNodes - overlap[0])))
+                        #print 'similarity: ' + str(float(overlap[0])/((struc1.numNodes + struc2.numNodes - overlap[0])))
                     #if (float(overlap[0])/(min(struc1.numNodes,struc2.numNodes))) > 0.1:
                     # change to jaccard similarity
                     if (float(overlap[0])/((struc1.numNodes + struc2.numNodes - overlap[0]))) > 0.1:
                         self.outputMoreCandidates(struc1, struc2, augmented_model);
+        # compute avg and std of similarity
+        avgSimilarity = np.mean(similarityList)
+        stdSimilarity = np.std(similarityList)
+        print similarityList
+        mHandleFull.write('# of overlapped pairs: ' + '%.0f' % len(similarityList) + '\n')
+        mHandleFull.write('Average normalized overlap: ' + '%.3f' % avgSimilarity + '\n')
+        mHandleFull.write('Normalized overlap std: ' + '%.3f' % stdSimilarity + '\n')
 
         mHandle.close()
         mHandleFull.close()
