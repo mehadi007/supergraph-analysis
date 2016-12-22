@@ -13,7 +13,7 @@ import sys
 def countStructures(model, idx, n):
     # count number of structures for top n structures and print them out
     structCnt = {}
-    for i in idx:
+    for i in idx[:n]:
         i = int(i) - 1
         struct = model[i].split(' ')[0]
         if structCnt.has_key(struct):
